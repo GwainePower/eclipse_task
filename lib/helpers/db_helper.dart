@@ -67,13 +67,16 @@ class DBHelper {
   static Future<void> insertData(String table, Map<String, Object> data) async {
     final sqliteDB = await DBHelper._openDB();
     // Using batch for heavy operations more than 1000 queries
-    final batch = sqliteDB.batch();
-    batch.insert(
-      table,
-      data,
-      conflictAlgorithm: sqlite.ConflictAlgorithm.replace,
-    );
-    await batch.commit();
+    await sqliteDB.transaction((txn) async {
+      final batch = txn.batch();
+      batch.insert(
+        table,
+        data,
+        conflictAlgorithm: sqlite.ConflictAlgorithm.replace,
+      );
+      await batch.commit();
+      print('insert finished');
+    });
   }
 
   static Future<List<Map<String, dynamic>>> getData(String table) async {

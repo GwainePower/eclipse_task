@@ -1,5 +1,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.eclipse_task">
+    <uses-permission android:name="android.permission.INTERNET"/>
    <application
         android:label="eclipse_task"
         android:name="${applicationName}"
